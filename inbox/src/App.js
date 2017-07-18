@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ToolBar from './components/toolBar';
 import Messages from './components/messages';
+// import { connect } from 'react-redux';
 
 const messages = [
   {
@@ -77,3 +78,30 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+// const App = ({ copyright, items, products }) => (
+//   (items.length && products.all.length) ?
+//     (
+//       <div>
+//         <CartHeader />
+//         <AddItem />
+//         <CartItems products={ products } items={ items } />
+//         <CartFooter copyright={ copyright } />
+//       </div>
+//     ) :
+//     (<div>Loading...</div>)
+// )
+//
+// const mapStateToProps = state => ({
+//   items: state.items.all,
+//   products: state.products,
+// })
+//
+// const mapDispatchToProps = () => ({})
+//
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(App)
