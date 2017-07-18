@@ -27,14 +27,14 @@ class Message extends React.Component {
     }
   }
 
-  selected = () => {
-    if (this.state.selected) {
-      this.setState({selected: false});
-    }
-    else {
-      this.setState({selected: true});
-    }
-  }
+  // selected = () => {
+  //   if (this.state.selected) {
+  //     this.setState({selected: false});
+  //   }
+  //   else {
+  //     this.setState({selected: true});
+  //   }
+  // }
 
   starred = () => {
     if (this.state.starred) {
@@ -47,7 +47,7 @@ class Message extends React.Component {
 
 
   render(){
-    
+
 
     var labelList = this.props.labels.map((label, i) => {
       return <Labels key={i} label={label} />

@@ -18,6 +18,7 @@ export function fetchItems() {
     dispatch({
       type: ITEMS_RECEIVED,
       items: json._embedded.items
+
     })
   }
 }
