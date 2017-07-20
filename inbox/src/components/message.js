@@ -1,5 +1,10 @@
 import React from 'react';
+import { selected } from '../actions/index'
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
 import Labels from './labels';
+
+
 
 
 class Message extends React.Component {
@@ -8,7 +13,6 @@ class Message extends React.Component {
     this.state = {
       id: props.id,
       read: props.read,
-      selected: props.selected,
       starred: props.starred,
       showBody: false,
       selectAll: false,
@@ -17,15 +21,15 @@ class Message extends React.Component {
   }
 
 
-  markRead = () => {
-    this.setState({read: true});
-    if (this.state.showBody) {
-      this.setState({showBody: false})
-    }
-    else {
-      this.setState({showBody: true})
-    }
-  }
+  // markRead = () => {
+  //   this.setState({read: true});
+  //   if (this.state.showBody) {
+  //     this.setState({showBody: false})
+  //   }
+  //   else {
+  //     this.setState({showBody: true})
+  //   }
+  // }
 
   // selected = () => {
   //   if (this.state.selected) {
@@ -36,30 +40,30 @@ class Message extends React.Component {
   //   }
   // }
 
-  starred = () => {
-    if (this.state.starred) {
-      this.setState({starred: false});
-    }
-    else {
-      this.setState({starred: true});
-    }
-  }
+  // starred = () => {
+  //   if (this.state.starred) {
+  //     this.setState({starred: false});
+  //   }
+  //   else {
+  //     this.setState({starred: true});
+  //   }
+  // }
 
 
   render(){
-
-
     var labelList = this.props.labels.map((label, i) => {
       return <Labels key={i} label={label} />
     })
 
+    // console.log(this.props);
     return (
       <div>
         <div className={`row message ${this.state.read?'read' : 'unread'} ${this.state.selected?'selected': this.props.selectAll? 'selected': ''}`}>
           <div className="col-xs-1">
             <div className="row">
               <div className="col-xs-2">
-                <input type="checkbox" checked={this.props.selectAll? true: this.state.selected? true: false} onClick={this.selected}/>
+                <input type="checkbox" checked={this.props.selectAll? true: this.state.selected? true: false} onClick={() => selected(this.props)}/>
+                {/* () => this.props.selected(this.props) */}
               </div>
               <div className="col-xs-2">
                 <i className={`star fa ${this.state.starred?'fa-star':'fa-star-o'}`} onClick={this.starred}></i>
@@ -83,4 +87,19 @@ class Message extends React.Component {
   }
 }
 
-export default Message;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    active: ownProps.filter === state.selected
+  }
+}
+
+const matchDispatchToProps = (dispatch, ownProps) => {
+  // console.log(ownProps);
+  return {
+    onClick: () => {
+      dispatch(selected(selected))
+    }
+  }
+}
+
+  export default connect(mapStateToProps, matchDispatchToProps) (Message);
