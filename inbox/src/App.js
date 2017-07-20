@@ -129,8 +129,7 @@ class App extends Component {
       return message.selected === true;
     })
     .forEach((message) => {
-      message.labels.indexOf(label);
-      message.labels.splice(message.labels.indexOf(label));
+      message.labels.splice(message.labels.indexOf(label), message.labels.indexOf(label) + 1);
     })
     this.setState({messages: stateCopy});
   }
