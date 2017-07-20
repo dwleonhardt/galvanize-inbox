@@ -17,24 +17,24 @@ class Message extends React.Component {
   }
 
 
-  markRead = () => {
-    this.setState({read: true});
-    if (this.state.showBody) {
-      this.setState({showBody: false})
-    }
-    else {
-      this.setState({showBody: true})
-    }
-  }
-
-  // selected = () => {
-  //   if (this.state.selected) {
-  //     this.setState({selected: false});
+  // markRead = () => {
+  //   this.setState({read: true});
+  //   if (this.state.showBody) {
+  //     this.setState({showBody: false})
   //   }
   //   else {
-  //     this.setState({selected: true});
+  //     this.setState({showBody: true})
   //   }
   // }
+
+  selected = () => {
+    if (this.state.selected) {
+      this.setState({selected: false});
+    }
+    else {
+      this.setState({selected: true});
+    }
+  }
 
   starred = () => {
     if (this.state.starred) {

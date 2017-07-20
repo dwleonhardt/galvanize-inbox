@@ -67,6 +67,19 @@ const messages = [
 
 
 class App extends Component {
+  markRead = (id) => {
+    this.setState({read: true});
+    if (this.state.showBody) {
+      this.setState({showBody: false})
+    }
+    else {
+      this.setState({showBody: true})
+    }
+  }
+
+
+
+
   render() {
     return (
       <div className="container-fluid">
