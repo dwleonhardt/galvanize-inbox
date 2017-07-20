@@ -67,54 +67,104 @@ const messages = [
 
 
 class App extends Component {
-  markRead = (id) => {
-    this.setState({read: true});
-    if (this.state.showBody) {
-      this.setState({showBody: false})
-    }
-    else {
-      this.setState({showBody: true})
-    }
+  constructor(){
+    super()
+    this.state = {
+      messages,
+    };
   }
 
+  allRead = () => {
+    var stateCopy = this.state.messages.slice();
+    stateCopy.filter((message) => {
+      return message.selected === true;
+    })
+    .forEach((message) => {
+      message.read = true;
+    });
+    this.setState({messages: stateCopy});
+  }
 
+  unread = () => {
+    var stateCopy = this.state.messages.slice();
+    stateCopy.filter((message) => {
+      return message.selected === true;
+    })
+    .forEach((message) => {
+      message.read = false;
+    });
+    this.setState({messages: stateCopy});
+  }
+
+  selectAll = (bool) => {
+    var stateCopy = this.state.messages.slice();
+    stateCopy.forEach((message) => {
+      message.selected = bool;
+    })
+    this.setState({messages: stateCopy});
+  }
+
+  delete = () => {
+    var stateCopy = this.state.messages.slice();
+    var newState = stateCopy.filter((message) => {
+      return message.selected !== true;
+    });
+    this.setState({messages: newState});
+  }
+
+  addLabel = (label) => {
+    var stateCopy = this.state.messages.slice();
+    stateCopy.filter((message) => {
+      return message.selected === true;
+    })
+    .forEach((message) => {
+      message.labels.push(label);
+    })
+    this.setState({messages: stateCopy});
+  }
+
+  removeLabel = (label) => {
+    var stateCopy = this.state.messages.slice();
+    stateCopy.filter((message) => {
+      return message.selected === true;
+    })
+    .forEach((message) => {
+      message.labels.indexOf(label);
+      message.labels.splice(message.labels.indexOf(label));
+    })
+    this.setState({messages: stateCopy});
+  }
+
+  markRead = (id) => {
+    var stateCopy = this.state.messages.slice();
+    var current = stateCopy.find((message)=> message.id === id);
+    current.read = true;
+    this.setState({messages: stateCopy});
+  }
+
+  selector = (id) => {
+    var stateCopy = this.state.messages.slice();
+    var current = stateCopy.find((message)=> message.id === id);
+    current.selected = !current.selected;
+    this.setState({messages: stateCopy});
+  }
+
+  star = (id) => {
+    var stateCopy = this.state.messages.slice();
+    var current = stateCopy.find((message)=> message.id === id);
+    current.starred = !current.starred;
+    this.setState({messages: stateCopy});
+  }
 
 
   render() {
     return (
       <div className="container-fluid">
-        <ToolBar />
-        <Messages messages={messages} />
+        <ToolBar messages={this.state.messages} allRead={this.allRead} unread={this.unread} selectAll={this.selectAll} delete={this.delete} addLabel={this.addLabel} removeLabel={this.removeLabel}/>
+        <Messages messages={this.state.messages}  markRead={this.markRead} selector={this.selector} star={this.star} allRead={this.allRead}/>
       </div>
         );
   }
 }
 
 export default App;
-
-
-
-// const App = ({ copyright, items, products }) => (
-//   (items.length && products.all.length) ?
-//     (
-//       <div>
-//         <CartHeader />
-//         <AddItem />
-//         <CartItems products={ products } items={ items } />
-//         <CartFooter copyright={ copyright } />
-//       </div>
-//     ) :
-//     (<div>Loading...</div>)
-// )
-//
-// const mapStateToProps = state => ({
-//   items: state.items.all,
-//   products: state.products,
-// })
-//
-// const mapDispatchToProps = () => ({})
-//
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(App)

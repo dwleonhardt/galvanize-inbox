@@ -3,51 +3,24 @@ import Labels from './labels';
 
 
 class Message extends React.Component {
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
     this.state = {
-      id: props.id,
-      read: props.read,
-      selected: props.selected,
-      starred: props.starred,
-      showBody: false,
-      selectAll: false,
-      markRead: false
+      showBody: ''
     }
   }
 
-
-  // markRead = () => {
-  //   this.setState({read: true});
-  //   if (this.state.showBody) {
-  //     this.setState({showBody: false})
-  //   }
-  //   else {
-  //     this.setState({showBody: true})
-  //   }
-  // }
-
-  selected = () => {
-    if (this.state.selected) {
-      this.setState({selected: false});
+  showBody = () => {
+    if (this.state.showBody === '') {
+      this.setState({showBody :'hidden'});
     }
     else {
-      this.setState({selected: true});
-    }
-  }
-
-  starred = () => {
-    if (this.state.starred) {
-      this.setState({starred: false});
-    }
-    else {
-      this.setState({starred: true});
+      this.setState({showBody :''});
     }
   }
 
 
   render(){
-
 
     var labelList = this.props.labels.map((label, i) => {
       return <Labels key={i} label={label} />
@@ -55,20 +28,20 @@ class Message extends React.Component {
 
     return (
       <div>
-        <div className={`row message ${this.state.read?'read' : 'unread'} ${this.state.selected?'selected': this.props.selectAll? 'selected': ''}`}>
+        <div className={`row message ${this.props.read?'read' : 'unread'} ${this.props.selected?'selected': this.props.selectAll? 'selected': ''}`}>
           <div className="col-xs-1">
             <div className="row">
               <div className="col-xs-2">
-                <input type="checkbox" checked={this.props.selectAll? true: this.state.selected? true: false} onClick={this.selected}/>
+                <input type="checkbox" checked={this.props.selectAll? true: this.props.selected? true: false} onClick={() => this.props.selector(this.props.id)}/>
               </div>
               <div className="col-xs-2">
-                <i className={`star fa ${this.state.starred?'fa-star':'fa-star-o'}`} onClick={this.starred}></i>
+                <i className={`star fa ${this.props.starred?'fa-star':'fa-star-o'}`} onClick={() => this.props.star(this.props.id)}></i>
               </div>
             </div>
           </div>
-          <div className="col-xs-11">
+          <div className="col-xs-11" onClick={this.showBody}>
             {labelList}
-            <a  onClick={this.markRead}>
+            <a  onClick={() => this.props.markRead(this.props.id)}>
               {this.props.subject}
             </a>
           </div>
